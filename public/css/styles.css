@@ -1,6 +1,264 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
+/* Base Styles - Mobile first */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff;
+  color: #222;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 1rem 1rem;
+  background: #fff;
   box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 0.5rem 0;
+  border-bottom: 2px solid #222;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #111;
+  margin: 0;
+}
+
+.account-link {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  display: flex;
+  gap: 1rem;
+  background-color: #1c1c2b;
+  border-radius: 0.25rem;
+}
+
+.nav-menu li {
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 0.5rem 0.8rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-menu a:hover,
+.nav-menu a:focus {
+  background: #00bcd4; /* Turquoise highlight */
+  outline: none;
+  color: #fff;
+}
+
+main {
+  margin-top: 1rem;
+}
+
+.welcome-section h2 {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.dmc-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.dmc-text h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.highlight-link {
+  font-weight: 700;
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+.highlight-link:hover,
+.highlight-link:focus {
+  text-decoration: underline;
+  outline: none;
+}
+
+.welcome-section ul {
+  color: #00bcd4;
+  margin: 0 0 1rem 1.2rem;
+  padding: 0;
+}
+
+.btn-own {
+  background-color: #00bcd4;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  border-radius: 0.15rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 6px rgba(0, 188, 212, 0.5);
+}
+
+.btn-own:hover,
+.btn-own:focus {
+  background-color: #009bb3;
+  outline: none;
+}
+
+.dmc-image {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.dmc-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.reviews-section h3,
+.upgrades-section h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.reviews-section ul {
+  padding-left: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.upgrade-item a {
+  text-align: center;
+  text-decoration: none;
+  color: #0077cc;
+  display: block;
+  background-color: #00bcd4;
+  padding: 0.25rem;
+  border-radius: 0.2rem;
+}
+
+.upgrade-item a:hover,
+.upgrade-item a:focus {
+  background-color: #009bb3;
+  color: #fff;
+  outline: none;
+  text-decoration: underline;
+}
+
+.upgrade-item img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0.4rem auto;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  margin: 2rem 0 1rem 0;
+}
+
+/* Larger screen layout */
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem 3rem;
+    background-color: #e6f7fa;
+    border: 3px solid #00bcd4;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  header {
+    align-items: baseline;
+  }
+
+  .account-link {
+    font-size: 1rem;
+    margin-left: auto;
+  }
+
+  .nav-menu {
+    margin-top: 0.25rem;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .welcome-section {
+    grid-column: 1 / -1;
+  }
+
+  .dmc-container {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .dmc-text {
+    max-width: 350px;
+  }
+
+  .dmc-text ul {
+    margin-left: 0;
+  }
+
+  .btn-own {
+    margin-top: 0.25rem;
+  }
+
+  .dmc-image {
+    margin-top: 0;
+    margin-left: 1rem;
+    max-width: 460px;
+  }
+
+  .reviews-section {
+    order: 2;
+  }
+
+  .upgrades-section {
+    order: 1;
+  }
+
+  .upgrades-grid {
+    grid-template-columns: repeat(2, 110px);
+    justify-content: start;
+  }
+
+  .upgrade-item img {
+    max-width: 110px;
+  }
+
+  footer {
+    grid-column: 1 / -1;
+  }
 }
