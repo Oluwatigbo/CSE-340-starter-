@@ -1,213 +1,352 @@
-/* General reset and base styles */
+/* Base Mobile Styles - Mobile First Approach */
+
+@charset "UTF-8";
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #000;
+  padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.5;
+  font-size: 16px;
 }
 
-/* Container for the entire page */
-.container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  border: 4px solid #00baff;
-  border-radius: 10px;
-  background: #fff;
-  box-sizing: border-box;
+a {
+  color: #00aaff; /* Bright cyan for links */
+  text-decoration: none;
 }
 
-/* Header */
+a:hover,
+a:focus {
+  text-decoration: underline;
+  outline-offset: 2px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 header h1 {
-  font-weight: bold;
-  font-size: 1.8rem;
+  font-weight: 700;
+  font-size: 1.5rem;
   margin: 0;
 }
 
-header .account {
-  font-size: 0.8rem;
-  color: #000;
+.account-link {
+  font-size: 0.875rem;
+  color: #333;
 }
 
-/* Navigation Bar */
 nav {
-  background-color: #1a1a2e;
-  padding: 10px 0;
+  background-color: #1a1a2e; /* Dark navy */
+  margin-bottom: 1rem;
   border-radius: 4px;
-  margin-bottom: 15px;
 }
 
 nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
-  gap: 15px;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  overflow-x: auto; /* allows scroll on small devices if needed, but likely fits */
 }
 
-nav ul li {
-  color: #fff;
+nav li {
+  margin: 0 0.25rem;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+nav a {
   font-weight: 600;
-  cursor: pointer;
-  padding: 6px 12px;
-  user-select: none;
+  font-size: 1rem;
+  color: #ffffff;
+  display: block;
+  padding: 0.5rem 0;
 }
 
-nav ul li:hover {
-  background-color: #00baff;
-  border-radius: 4px;
+nav a:hover,
+nav a:focus {
+  background-color: #00aaff;
+  color: #000;
+  border-radius: 3px;
+}
+
+main h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Welcome Section */
-.welcome h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+.welcome {
+  margin-bottom: 1.5rem;
+}
+
+.welcome strong {
+  font-weight: 700;
 }
 
 .welcome .car-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
-.car-info .text {
-  max-width: 220px;
-  color: #00baff;
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-.car-info .text p {
-  margin: 5px 0;
-  font-weight: normal;
-  color: #33c6ff;
-}
-
-.car-info .btn {
-  margin-top: 10px;
-  background-color: #00baff;
-  border: none;
-  padding: 8px 16px;
-  color: #fff;
+.car-model {
   font-weight: 700;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #007bb8; /* darker cyan */
+  margin-bottom: 0.25rem;
+  cursor: default;
   display: inline-block;
 }
 
-.car-info .btn:hover {
-  background-color: #0099cc;
+.car-details {
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: #00aaff;
+  margin: 0 0 0.5rem 0;
 }
 
-.car-info img {
-  max-width: 320px;
+.cta-button {
+  background-color: #00aaff;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover,
+.cta-button:focus {
+  background-color: #007bb8;
+  color: #fff;
+  outline-offset: 2px;
+}
+
+/* Car image container to keep image aligned with text */
+.car-wrapper {
+  position: relative;
+  margin: 0.5rem 0 1rem 0;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.car-wrapper img {
+  width: 100%;
   height: auto;
-  user-select: none;
+  max-width: 320px;
+  display: block;
+}
+
+/* Position the button overlapping the car image on mobile */
+.cta-button {
+  position: relative;
+  z-index: 2;
+  margin-top: -2.5rem;
+  margin-left: 0.25rem;
+  display: inline-block;
 }
 
 /* Reviews Section */
 .reviews {
-  margin-top: 30px;
-}
-
-.reviews h3 {
-  font-weight: bold;
-  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .reviews ul {
-  padding-left: 20px;
+  margin: 0;
+  padding-left: 1.2rem;
 }
 
-.reviews ul li {
-  margin-bottom: 8px;
-  line-height: 1.3;
-  list-style-type: disc;
-  color: #000;
+.reviews li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #1a1a1a;
 }
 
 /* Upgrades Section */
 .upgrades {
-  margin-top: 30px;
+  margin-bottom: 1.5rem;
 }
 
-.upgrades h3 {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Grid layout for image links */
-.upgrades-grid {
+.upgrades-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 .upgrade-item {
-  background-color: #00baff;
-  border-radius: 4px;
-  padding: 10px;
   text-align: center;
-  box-sizing: border-box;
-  user-select: none;
+  background-color: #00aaff;
+  border-radius: 4px;
+  padding: 0.25rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .upgrade-item img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto 8px auto;
+  background-color: #00aaff;
+  border-radius: 2px;
 }
 
 .upgrade-item a {
-  color: #003366;
-  text-decoration: underline;
-  font-weight: 600;
+  display: block;
+  margin-top: 0.25rem;
   font-size: 0.9rem;
+  color: #003e5c;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.upgrade-item a:hover,
+.upgrade-item a:focus {
+  color: #000;
+  outline-offset: 2px;
 }
 
 /* Footer */
 footer {
-  text-align: center;
-  margin-top: 40px;
   font-size: 0.85rem;
-  color: #555;
+  color: #666;
+  border-top: 1px solid #ccc;
+  padding-top: 0.5rem;
+  text-align: center;
 }
 
-/* Background for outer page (only for second image) */
-/* You can add this .outer-bg class on body or a parent container if needed */
-.outer-bg {
-  background: 
-    repeating-linear-gradient(
-      0deg, 
-      black 0 20px, 
-      white 20px 40px
-    ),
-    repeating-linear-gradient(
-      90deg, 
-      black 0 20px, 
-      white 20px 40px
-    );
-  min-height: 100vh;
-  padding: 30px 10px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: start;
+/* Medium Screens (from 600px and up) */
+@media screen and (min-width: 600px) {
+  body {
+    padding: 2rem;
+    background-color: #ffffff;
+  }
+  nav ul {
+    justify-content: flex-start;
+  }
+  nav li {
+    margin: 0 1rem 0 0;
+    flex: initial;
+  }
+  header h1 {
+    font-size: 1.75rem;
+  }
+  .welcome {
+    max-width: 600px;
+  }
+  .car-wrapper {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Large Screens (from 900px and up) */
+@media screen and (min-width: 900px) {
+  body {
+    background-color: #e0f5ff; /* very light cyan background */
+  }
+  main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border: 3px solid #00aaff;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  header {
+    margin-bottom: 1.5rem;
+  }
+
+  nav {
+    border-radius: 6px;
+  }
+
+  .welcome {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .car-wrapper {
+    max-width: 450px;
+    margin: 0;
+    flex: 1 1 auto;
+  }
+
+  .car-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .car-info {
+    flex: 0 0 250px;
+    margin-right: 2rem;
+    order: 1;
+  }
+
+  .car-model {
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .car-details {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #00aaff;
+    margin-bottom: 1rem;
+  }
+
+  /* Position the button overlapping the text box */
+  .cta-button {
+    position: relative;
+    margin: 0;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    display: inline-block;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .welcome {
+    flex-direction: row-reverse;
+  }
+
+  .reviews,
+  .upgrades {
+    flex: 1 1 50%;
+  }
+
+  /* Side by side layout for reviews and upgrades */
+  .reviews-upgrades-container {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .reviews ul {
+    padding-left: 1.5rem;
+  }
+
+  /* Use grid with 2 columns for upgrades */
+  .upgrades-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
 }
