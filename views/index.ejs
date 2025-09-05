@@ -1,261 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CSE Motors</title>
-<style>
-  /* Background Checkerboard Pattern */
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    background-image:
-      linear-gradient(45deg, #fff 25%, transparent 25%),
-      linear-gradient(-45deg, #fff 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #fff 75%),
-      linear-gradient(-45deg, transparent 75%, #fff 75%);
-    background-size: 40px 40px;
-    background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
-  }
-  /* Container */
-  .container {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    border: 6px solid #0a9bd4;
-    border-radius: 8px;
-    padding: 20px 30px;
-    box-sizing: border-box;
-    color: #000;
-  }
-  /* Header Styles */
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  header h1 {
-    margin: 0;
-    font-weight: bold;
-    font-size: 2em;
-  }
-  header .account-link {
-    font-size: 0.9em;
-    color: #333;
-    cursor: pointer;
-  }
-
-  /* Navigation Bar */
-  nav {
-    background-color: #1a1a2e;
-    display: flex;
-    gap: 20px;
-    padding: 10px 0;
-    margin-bottom: 20px;
-  }
-  nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  nav a:hover,
-  nav a:focus {
-    background-color: #0a9bd4;
-    outline: none;
-  }
-
-  /* Welcome Section */
-  .welcome-section {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-  .welcome-text {
-    max-width: 250px;
-  }
-  .welcome-text h2 {
-    color: #0a9bd4;
-    cursor: pointer;
-    margin-top: 0;
-    margin-bottom: 8px;
-  }
-  .welcome-text ul {
-    list-style-type: none;
-    margin: 0 0 12px 0;
-    padding: 0;
-    color: #008cc4;
-    font-weight: 600;
-  }
-  .welcome-text ul li {
-    margin-bottom: 4px;
-  }
-  .btn-own {
-    background-color: #0a9bd4;
-    border: none;
-    color: white;
-    padding: 10px 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(10,155,212,0.4);
-    transition: background-color 0.3s ease;
-  }
-  .btn-own:hover,
-  .btn-own:focus {
-    background-color: #0585c0;
-    outline: none;
-  }
-  img.car-image {
-    max-width: 350px;
-    height: auto;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-  }
-
-  /* Main Content Flex Layout */
-  .main-content {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  /* Upgrades Section */
-  .upgrades {
-    flex: 1 1 300px;
-  }
-  .upgrades h3 {
-    margin-top: 0;
-  }
-  .upgrades-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .upgrade-item {
-    text-align: center;
-  }
-  .upgrade-item img {
-    width: 100%;
-    max-width: 150px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    transition: transform 0.3s ease;
-  }
-  .upgrade-item img:hover {
-    transform: scale(1.05);
-  }
-  .upgrade-item a {
-    display: block;
-    margin-top: 8px;
-    color: #0a9bd4;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .upgrade-item a:hover,
-  .upgrade-item a:focus {
-    text-decoration: underline;
-    outline: none;
-  }
-
-  /* Reviews Section */
-  .reviews {
-    flex: 1 1 300px;
-  }
-  .reviews h3 {
-    margin-top: 0;
-  }
-  .reviews ul {
-    padding-left: 20px;
-  }
-  .reviews ul li {
-    margin-bottom: 10px;
-    font-style: italic;
-  }
-
-  /* Footer */
-  footer {
-    margin-top: 30px;
-    font-size: 0.85em;
-    color: #666;
-    text-align: center;
-  }
-
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .main-content {
-      flex-direction: column;
-    }
-    .welcome-section {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    img.car-image {
-      max-width: 100%;
-      height: auto;
-    }
-  }
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSE Motors Home</title>
+  <link rel="stylesheet" href="/public/css/styles.css" media="screen" />
 </head>
 <body>
   <div class="container">
     <header>
       <h1>CSE Motors</h1>
-      <div class="account-link" tabindex="0">My Account</div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Custom</a></li>
+          <li><a href="#">Sedan</a></li>
+          <li><a href="#">SUV</a></li>
+          <li><a href="#">Truck</a></li>
+        </ul>
+      </nav>
+      <div class="account-link">My Account</div>
     </header>
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Custom</a>
-      <a href="#">Sedan</a>
-      <a href="#">SUV</a>
-      <a href="#">Truck</a>
-    </nav>
-
-    <section class="welcome-section" aria-label="Welcome section">
-      <div class="welcome-text">
-        <h2 tabindex="0">DMC Delorean</h2>
-        <ul>
-          <li>3 Cup holders</li>
-          <li>Superman doors</li>
-          <li>Fuzzy dice!</li>
-        </ul>
-        <button class="btn-own" aria-label="Own DMC Delorean today">Own Today</button>
-      </div>
-      <img src="public/images/vehicles/delorean.jpg" alt="DMC Delorean car" class="car-image" />
-    </section>
-
-    <div class="main-content">
-      <section class="upgrades" aria-labelledby="upgrades-title">
-        <h3 id="upgrades-title">Delorean Upgrades</h3>
-        <div class="upgrades-grid">
-          <div class="upgrade-item">
-            <img src="public/images/upgrades/flux-cap.png" alt="Flux Capacitor upgrade" />
-            <a href="#">Flux Capacitor</a>
+    <main>
+      <section class="welcome-section">
+        <h2>Welcome to CSE Motors!</h2>
+        <div class="dmc-container">
+          <div class="dmc-text">
+            <h3><a href="#" class="highlight-link">DMC Delorean</a></h3>
+            <ul>
+              <li>3 Cup holders</li>
+              <li>Superman doors</li>
+              <li>Fuzzy dice!</li>
+            </ul>
+            <button class="btn-own">Own Today</button>
           </div>
-          <div class="upgrade-item">
-            <img src="public/images/upgrades/flame.jpg" alt="Flame Decals upgrade" />
-            <a href="#">Flame Decals</a>
-          </div>
-          <div class="upgrade-item">
-            <img src="public/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers upgrade" />
-            <a href="#">Bumper Stickers</a>
-          </div>
-          <div class="upgrade-item">
-            <img src="public/images/upgrades/hub-cap.jpg" alt="Hub Caps upgrade" />
-            <a href="#">Hub Caps</a>
+          <div class="dmc-image">
+            <img src="/public/images/vehicles/delorean.jpg" alt="DMC Delorean Car" />
           </div>
         </div>
       </section>
 
-      <section class="reviews" aria-labelledby="reviews-title">
-        <h3 id="reviews-title">DMC Delorean Reviews</h3>
+      <section class="reviews-section">
+        <h3>DMC Delorean Reviews</h3>
         <ul>
           <li>"So fast it's almost like traveling in time." (4/5)</li>
           <li>"Coolest ride on the road." (4/5)</li>
@@ -264,10 +51,40 @@
           <li>"80's livin and I love it!" (5/5)</li>
         </ul>
       </section>
-    </div>
+
+      <section class="upgrades-section">
+        <h3>Delorean Upgrades</h3>
+        <div class="upgrades-grid">
+          <div class="upgrade-item">
+            <a href="#">
+              <img src="/public/images/upgrades/flux-cap.png" alt="Flux Capacitor" />
+              <span>Flux Capacitor</span>
+            </a>
+          </div>
+          <div class="upgrade-item">
+            <a href="#">
+              <img src="/public/images/upgrades/flame.jpg" alt="Flame Decals" />
+              <span>Flame Decals</span>
+            </a>
+          </div>
+          <div class="upgrade-item">
+            <a href="#">
+              <img src="/public/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers" />
+              <span>Bumper Stickers</span>
+            </a>
+          </div>
+          <div class="upgrade-item">
+            <a href="#">
+              <img src="/public/images/upgrades/hub-cap.jpg" alt="Hub Caps" />
+              <span>Hub Caps</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <footer>
-      &copy; 2023, CSE 340 App
+      <p>© 2023, CSE 340 App</p>
     </footer>
   </div>
 </body>
