@@ -10,14 +10,22 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const invRouter = require("./routes/inventory-route")
+const utilities = require("./utilities/")
+
+/* ***********************
+ * Middleware
+ *************************/
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 /* ***********************
  * Serve Static Files
  *************************/
-app.use(express.static("public"))  // <-- Added this line
+app.use(express.static("public"))
 
 /* ***********************
- * View Engine and Templates"
+ * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
@@ -27,10 +35,30 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 app.use(static)
+app.use("/inv", invRouter)
 
 // Index route
-app.get("/", function (req, res){
-  res.render("index", {title: "Home"})  
+app.get("/", utilities.handleErrors(async (req, res) => {
+  const nav = await utilities.getNav()
+  res.render("index", { title: "Home", nav, layout: "./layouts/layout" })
+}))
+
+// 404 Error Handler
+app.use(async (req, res, next) => {
+  next({ status: 404, message: "Sorry, we appear to have lost that page." })
+})
+
+// Error Handler Middleware
+app.use(async (err, req, res, next) => {
+  const nav = await utilities.getNav()
+  console.error(`Error: ${err.message}`)
+  res.status(err.status || 500).render("error", {
+    title: "Error",
+    message: err.message,
+    error: err,
+    nav,
+    layout: "./layouts/layout"
+  })
 })
 
 /* ***********************
