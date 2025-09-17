@@ -1,15 +1,15 @@
 const express = require("express")
 const router = new express.Router()
 const invController = require("../controllers/inv-controller")
-const utilities = require("../utilities/")
+const Util = require("../utilities/")
 
-// Existing classification routes
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
+// Classification view route
+router.get("/type/:classificationId", Util.handleErrors(invController.buildByClassificationId))
 
-// New detail route
-router.get("/detail/:invId", utilities.handleErrors(invController.buildByInventoryId))
+// Detail view route
+router.get("/detail/:invId", Util.handleErrors(invController.buildByInventoryId))
 
 // Intentional error route
-router.get("/trigger-error", utilities.handleErrors(invController.triggerError))
+router.get("/trigger-error", Util.handleErrors(invController.triggerError))
 
 module.exports = router

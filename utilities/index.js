@@ -28,8 +28,35 @@ async function buildVehicleDetailHtml(vehicle) {
   `
 }
 
+async function buildClassificationGrid(vehicles) {
+  let grid = '<div class="vehicle-grid">'
+  if (vehicles.length > 0) {
+    vehicles.forEach(vehicle => {
+      grid += `
+        <div class="vehicle-item">
+          <a href="/inv/detail/${vehicle.inv_id}">
+            <img src="${vehicle.inv_thumbnail}" alt="${vehicle.inv_make} ${vehicle.inv_model}">
+            <h3>${vehicle.inv_make} ${vehicle.inv_model}</h3>
+            <p>Price: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(vehicle.inv_price)}</p>
+          </a>
+        </div>
+      `
+    })
+  } else {
+    grid += '<p>No vehicles found.</p>'
+  }
+  grid += '</div>'
+  return grid
+}
+
 async function getNav() {
-  // Existing navigation logic
+  const classifications = await invModel.getClassifications()
+  let navList = '<ul>'
+  classifications.forEach(classification => {
+    navList += `<li><a href="/inv/type/${classification.classification_id}">${classification.classification_name}</a></li>`
+  })
+  navList += '</ul>'
+  return navList
 }
 
 function handleErrors(fn) {
