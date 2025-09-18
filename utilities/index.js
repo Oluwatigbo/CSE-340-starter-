@@ -32,7 +32,19 @@ function handleErrors(fn) {
   };
 }
 
+// Example getNav function returning navigation data
+async function getNav() {
+  // Replace this with your actual nav building logic or database call
+  return [
+    { name: 'Home', link: '/' },
+    { name: 'Inventory', link: '/inv' },
+    { name: 'About', link: '/about' },
+    { name: 'Contact', link: '/contact' },
+  ];
+}
+
 module.exports = {
   buildVehicleDetailHTML,
   handleErrors,
+  getNav,
 };
