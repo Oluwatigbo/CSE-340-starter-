@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Error - Vehicle Inventory</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <%- include('partials/header') %>
-  <nav><%- nav %></nav>
-  <main>
-    <div class="error-container">
-      <h1>Error</h1>
-      <p><%= message %></p>
-      <p>Status: <%= error.status || 500 %></p>
-      <p><a href="/">Return to Home</a></p>
-    </div>
-  </main>
-  <%- include('partials/footer') %>
-</body>
-</html>
+<main class="error-container">
+  <h1><%= title %></h1>
+  <p><%= message %></p>
+  <% if (error && error.status === 500) { %>
+    <p>Sorry, something went wrong on our end. Please try again later.</p>
+  <% } %>
+  <p><a href="/">Return to Home</a></p>
+</main>
