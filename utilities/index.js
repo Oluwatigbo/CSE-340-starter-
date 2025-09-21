@@ -1,4 +1,4 @@
-// utilities/index.js
+const invModel = require('../models/inventory-model');
 
 function formatPriceUSD(price) {
   return price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -43,8 +43,21 @@ async function getNav() {
   ];
 }
 
+// Build classification select list HTML with sticky selected option
+async function buildClassificationList(selectedId = null) {
+  const data = await invModel.getClassifications();
+  let classificationList = '<select name="classification_id" id="classificationList" required>';
+  classificationList += '<option value="">Choose a Classification</option>';
+  data.rows.forEach(row => {
+    classificationList += `<option value="${row.classification_id}"${selectedId == row.classification_id ? ' selected' : ''}>${row.classification_name}</option>`;
+  });
+  classificationList += '</select>';
+  return classificationList;
+}
+
 module.exports = {
   buildVehicleDetailHTML,
   handleErrors,
   getNav,
+  buildClassificationList,
 };

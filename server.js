@@ -7,6 +7,8 @@
  *************************/
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const session = require("express-session");
+const flash = require("connect-flash");
 const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
@@ -19,6 +21,18 @@ const utilities = require("./utilities/");
  *************************/
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Session middleware for flash messages
+app.use(
+  session({
+    secret: "oluwatigbo", // Replace with a secure secret in production
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Flash message middleware
+app.use(flash());
 
 /* ***********************
  * Serve Static Files
