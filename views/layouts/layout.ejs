@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../partials/head') %>
-
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %> | YourSiteName</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
 <body>
-    <div id="wrapper">
-        <%- include('../partials/header') %>
-        <%- include('../partials/navigation') %>
+  <header>
+    <h1><a href="/" aria-label="Home">YourSiteName</a></h1>
+    <nav role="navigation" aria-label="Primary Navigation">
+      <ul>
+        <li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
+        <li><a href="/inv" class="<%= title === 'Inventory Management' ? 'active' : '' %>">Inventory</a></li>
+        <li><a href="/about" class="<%= title === 'About' ? 'active' : '' %>">About</a></li>
+        <li><a href="/contact" class="<%= title === 'Contact' ? 'active' : '' %>">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-          <main>
-            <%- body %>
-          </main>
+  <main role="main" tabindex="-1">
+    <%- body %>
+  </main>
 
-        <%- include('../partials/footer') %>
-    </div>
-</body>    
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> YourSiteName. All rights reserved.</p>
+    <p>
+      <a href="/error/trigger" class="error-link" aria-label="Trigger intentional error for testing">Trigger Error</a>
+    </p>
+  </footer>
+</body>
 </html>
