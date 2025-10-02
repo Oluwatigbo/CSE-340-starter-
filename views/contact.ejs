@@ -1,0 +1,22 @@
+<main>
+  <h1>Contact Us</h1>
+  <p>Have questions about our inventory or services? Reach out!</p>
+  <ul>
+    <li>Email: info@csemotors.com</li>
+    <li>Phone: (555) 123-4567</li>
+    <li>Address: 123 Auto Drive, Tech City, CA 12345</li>
+  </ul>
+  
+  <form action="/contact" method="POST"> <!-- Placeholder; add real handler if needed -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required />
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+    
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea>
+    
+    <button type="submit">Send Message</button>
+  </form>
+</main>

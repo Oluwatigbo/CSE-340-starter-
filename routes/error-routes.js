@@ -1,8 +1,9 @@
 // routes/error-routes.js
 const express = require('express');
 const router = express.Router();
-const errorController = require('../controllers/error-controller');
+const invController = require('../controllers/inv-controller'); // Reuse for test error
 
-router.get('/trigger-error', errorController.triggerError);
+// Trigger a test error (matches footer link)
+router.get('/trigger', invController.triggerError);
 
 module.exports = router;

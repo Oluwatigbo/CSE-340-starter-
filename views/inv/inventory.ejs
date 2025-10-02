@@ -1,0 +1,34 @@
+<main>
+  <h1>Vehicle Inventory</h1>
+  
+  <% if (loggedin && (accountType === 'Employee' || accountType === 'Admin')) { %>
+    <p><a href="/inv/add-inventory">Add New Vehicle</a> | <a href="/inv/add-classification">Add Classification</a></p>
+  <% } %>
+  
+  <% if (vehicles && vehicles.length > 0) { %>
+    <ul class="vehicle-list">
+      <% vehicles.forEach(vehicle => { %>
+        <li>
+          <a href="/inv/detail/<%= vehicle.inv_id %>">
+            <img src="<%= vehicle.inv_thumbnail %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+            <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %> (<%= vehicle.inv_year %>)</h3>
+            <p>Price: <%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(vehicle.inv_price) %></p>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No vehicles available. <% if (loggedin && (accountType === 'Employee' || accountType === 'Admin')) { %> <a href="/inv/add-inventory">Add one now!</a> <% } %></p>
+  <% } %>
+  
+  <h2>Browse by Classification</h2>
+  <% if (classifications && classifications.length > 0) { %>
+    <ul>
+      <% classifications.forEach(classification => { %>
+        <li><a href="/inv/type/<%= classification.classification_id %>"><%= classification.classification_name %></a></li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No classifications available.</p>
+  <% } %>
+</main>

@@ -1,0 +1,20 @@
+<main>
+  <% if (loggedin) { %>
+    <h2>Welcome <%= firstName %>!</h2>
+    <p>Your account type: <%= accountType %></p>
+    
+    <p><a href="/account/update/<%= accountId %>">Update Account Information</a></p>
+    
+    <% if (accountType === 'Employee' || accountType === 'Admin') { %>
+      <h3>Inventory Management</h3>
+      <p><a href="/inv/add-inventory">Add New Vehicle</a> | <a href="/inv/">View Inventory</a></p>
+    <% } %>
+    
+    <% if (message) { %><div class="flash-message"><%= message %></div><% } %>
+    <% if (errors && errors.length > 0) { %>
+      <ul class="errors"><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+    <% } %>
+  <% } else { %>
+    <p>Please <a href="/account/login">log in</a> to manage your account.</p>
+  <% } %>
+</main>

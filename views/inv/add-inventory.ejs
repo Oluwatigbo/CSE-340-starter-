@@ -1,0 +1,43 @@
+<main>
+  <h1>Add New Vehicle</h1>
+  
+  <% if (message) { %><div class="flash-message"><%= message %></div><% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul class="errors"><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+  <% } %>
+  
+  <form action="/inv/add-inventory" method="POST" novalidate enctype="multipart/form-data">
+    <label for="classification_id">Classification:</label>
+    <select id="classification_id" name="classification_id" required>
+      <option value="">Select Classification</option>
+      <% if (classifications) { classifications.forEach(classification => { %>
+        <option value="<%= classification.classification_id %>"><%= classification.classification_name %></option>
+      <% }) } %>
+    </select>
+    
+    <label for="inv_make">Make:</label>
+    <input type="text" id="inv_make" name="inv_make" required minlength="2" maxlength="50" value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>" />
+    
+    <label for="inv_model">Model:</label>
+    <input type="text" id="inv_model" name="inv_model" required minlength="2" maxlength="50" value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>" />
+    
+    <label for="inv_year">Year:</label>
+    <input type="number" id="inv_year" name="inv_year" required min="1886" max="<%= new Date().getFullYear() + 1 %>" value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>" />
+    
+    <label for="inv_description">Description:</label>
+    <textarea id="inv_description" name="inv_description" required maxlength="500"><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+    
+    <label for="inv_image">Image URL (optional):</label>
+    <input type="url" id="inv_image" name="inv_image" value="<%= typeof inv_image !== 'undefined' ? inv_image : '' %>" />
+    
+    <label for="inv_thumbnail">Thumbnail URL (optional):</label>
+    <input type="url" id="inv_thumbnail" name="inv_thumbnail" value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '' %>" />
+    
+    <label for="inv_price">Price:</label>
+    <input type="number" id="inv_price" name="inv_price" required min="0" step="0.01" value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>" />
+    
+    <button type="submit">Add Vehicle</button>
+  </form>
+  
+  <p><a href="/inv">Back to Inventory</a></p>
+</main>

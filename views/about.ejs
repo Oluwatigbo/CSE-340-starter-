@@ -1,0 +1,11 @@
+<main>
+  <h1>About CSE Motors</h1>
+  <p>CSE Motors is a premier vehicle dealership specializing in quality cars, trucks, and SUVs. We're committed to excellent customer service and inventory management.</p>
+  <p>Our team includes dedicated employees and admins who ensure our stock is up-to-date and secure.</p>
+  
+  <% if (loggedin) { %>
+    <p>Welcome back, <%= firstName %>! <a href="/account/manage">Manage Account</a></p>
+  <% } else { %>
+    <p><a href="/account/register">Join us today</a> by creating an account!</p>
+  <% } %>
+</main>

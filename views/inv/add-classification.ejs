@@ -1,0 +1,17 @@
+<main>
+  <h1>Add New Classification</h1>
+  
+  <% if (message) { %><div class="flash-message"><%= message %></div><% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul class="errors"><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+  <% } %>
+  
+  <form action="/inv/add-classification" method="POST" novalidate>
+    <label for="classification_name">Classification Name:</label>
+    <input type="text" id="classification_name" name="classification_name" required minlength="2" maxlength="30" value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>" />
+    
+    <button type="submit">Add Classification</button>
+  </form>
+  
+  <p><a href="/inv">Back to Inventory</a></p>
+</main>

@@ -1,0 +1,59 @@
+<%- include('../../partials/header.ejs') %>  <!-- If using partials; otherwise use full layout -->
+
+<main>
+  <h1>Register New Account</h1>
+  
+  <!-- Flash Messages (from layout or here) -->
+  <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+    <div class="errors">
+      <ul>
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  
+  <% if (typeof message !== 'undefined' && message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+  
+  <form action="/account/register" method="POST" id="registerForm">
+    <div class="form-group">
+      <label for="account_firstname">First Name:</label>
+      <input type="text" id="account_firstname" name="account_firstname" 
+             value="<%= typeof account !== 'undefined' ? account.account_firstname : '' %>" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="account_lastname">Last Name:</label>
+      <input type="text" id="account_lastname" name="account_lastname" 
+             value="<%= typeof account !== 'undefined' ? account.account_lastname : '' %>" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="account_email">Email:</label>
+      <input type="email" id="account_email" name="account_email" 
+             value="<%= typeof account !== 'undefined' ? account.account_email : '' %>" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="account_password">Password (min 8 chars, 1 upper, 1 lower, 1 number):</label>
+      <input type="password" id="account_password" name="account_password" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="account_type">Account Type:</label>
+      <select id="account_type" name="account_type">
+        <option value="Client" <%= typeof account !== 'undefined' && account.account_type === 'Client' ? 'selected' : '' %>>Client</option>
+        <option value="Employee" <%= typeof account !== 'undefined' && account.account_type === 'Employee' ? 'selected' : '' %>>Employee</option>
+        <option value="Admin" <%= typeof account !== 'undefined' && account.account_type === 'Admin' ? 'selected' : '' %>>Admin</option>
+      </select>
+    </div>
+    
+    <button type="submit">Register</button>
+    <a href="/account/login">Already have an account? Login</a>
+  </form>
+</main>
+
+<%- include('../../partials/footer.ejs') %>  <!-- If using partials -->

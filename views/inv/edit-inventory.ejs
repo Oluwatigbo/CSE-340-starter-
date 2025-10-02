@@ -1,0 +1,26 @@
+<main>
+  <h1>Edit Vehicle: <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+  
+  <% if (message) { %><div class="flash-message"><%= message %></div><% } %>
+  <% if (errors && errors.length > 0) { %>
+    <ul class="errors"><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+  <% } %>
+  
+  <form action="/inv/edit-inventory" method="POST" novalidate>
+    <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>" />
+    
+    <label for="classification_id">Classification:</label>
+    <select id="classification_id" name="classification_id" required>
+      <option value="">Select Classification</option>
+      <% if (classifications) { classifications.forEach(classification => { %>
+        <option value="<%= classification.classification_id %>" <%= vehicle.classification_id == classification.classification_id ? 'selected' : '' %>><%= classification.classification_name %></option>
+      <% }) } %>
+    </select>
+    
+    <label for="inv_make">Make:</label>
+    <input type="text" id="inv_make" name="inv_make" required minlength="2" maxlength="50" value="<%= vehicle.inv_make %>" />
+    
+    <label for="inv_model">Model:</label>
+    <input type="text" id="inv_model" name="inv_model" required minlength="2" maxlength="50" value="<%= vehicle.inv_model %>" />
+    
+    <label for="inv_year

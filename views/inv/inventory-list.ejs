@@ -1,0 +1,31 @@
+<!-- views/inv/inventory-list.ejs -->
+<main>
+  <h1>Vehicle Inventory</h1>
+  
+  <% if (loggedin && (accountType === 'Employee' || accountType === 'Admin')) { %>
+    <p><a href="/inv/add-inventory">Add New Vehicle</a></p>
+  <% } %>
+  
+  <% if (inventory && inventory.length > 0) { %>
+    <div class="inventory-grid">
+      <% inventory.forEach(function(vehicle) { %>
+        <div class="vehicle-card">
+          <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %> (<%= vehicle.inv_year %>)</h3>
+          <p>Price: $<%= vehicle.inv_price %></p>
+          <p><%= vehicle.inv_description %></p>
+          <a href="/inv/detail/<%= vehicle.inv_id %>">View Details</a>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>No vehicles available. <% if (loggedin && (accountType === 'Employee' || accountType === 'Admin')) { %>Add some as an admin!<% } %></p>
+  <% } %>
+  
+  <h2>Browse by Classification</h2>
+  <ul>
+    <!-- Placeholder: Add real classifications from DB -->
+    <li><a href="/inv/type/1">Sedans</a></li>
+    <li><a href="/inv/type/2">SUVs</a></li>
+    <!-- Add more -->
+  </ul>
+</main>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title><%= title %> | CSE Motors</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header>
@@ -12,14 +12,51 @@
     <nav role="navigation" aria-label="Primary Navigation">
       <ul>
         <li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
-        <li><a href="/inv" class="<%= title === 'Inventory Management' ? 'active' : '' %>">Inventory</a></li>
+        <li><a href="/inv" class="<%= title.includes('Inventory') ? 'active' : '' %>">Inventory</a></li>
         <li><a href="/about" class="<%= title === 'About' ? 'active' : '' %>">About</a></li>
         <li><a href="/contact" class="<%= title === 'Contact' ? 'active' : '' %>">Contact</a></li>
+        
+        <!-- Task 1: Dynamic account links based on login status -->
+        <% if (loggedin) { %>
+          <li class="account-link"><a href="/account/manage">Welcome, <%= firstName %>!</a></li>
+          <% if (accountType === 'Employee' || accountType === 'Admin') { %>
+            <li><a href="/inv/add-inventory">Add Vehicle</a></li>
+          <% } %>
+          <li class="logout-link"><a href="/account/logout">Logout</a></li>
+        <% } else { %>
+          <li class="account-link"><a href="/account/login">Login</a></li>
+          <li class="account-link"><a href="/account/register">Register</a></li>
+        <% } %>
       </ul>
     </nav>
   </header>
 
   <main role="main" tabindex="-1">
+    <!-- Task 1-6: Flash messages -->
+    <% if (typeof message !== 'undefined' && message) { %>
+      <div class="flash-message" role="alert"><%= message %></div>
+    <% } %>
+    <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+      <div class="errors" role="alert">
+        <ul>
+          <% errors.forEach(function(error) { %>
+            <li><%= error %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <!-- Updated: Safe secondary nav (only render if nav is array) -->
+    <% if (typeof nav !== 'undefined' && Array.isArray(nav) && nav.length > 0) { %>
+      <nav class="secondary-nav">
+        <ul>
+          <% nav.forEach(function(item) { %>
+            <li><a href="<%= item.href %>" class="<%= item.active ? 'active' : '' %>"><%= item.title %></a></li>
+          <% }) %>
+        </ul>
+      </nav>
+    <% } %>
+
     <%- body %>
   </main>
 

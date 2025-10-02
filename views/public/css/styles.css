@@ -12,7 +12,7 @@ body {
 }
 
 a {
-  color: #00aaff; /* Bright cyan for links */
+  color: #00aaff;
   text-decoration: none;
 }
 
@@ -42,13 +42,14 @@ header h1 {
 }
 
 nav {
-  background-color: #1a1a2e; /* Dark navy */
+  background-color: #1a1a2e;
   margin-bottom: 1rem;
   border-radius: 4px;
 }
 
 nav ul {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
   list-style: none;
   margin: 0;
@@ -67,7 +68,7 @@ nav a {
   font-size: 1rem;
   color: #ffffff;
   display: block;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
 }
 
 nav a:hover,
@@ -84,66 +85,38 @@ main h2 {
   margin-bottom: 0.5rem;
 }
 
-/* Welcome Section */
-.welcome {
-  margin-bottom: 1.5rem;
+/* Classification View */
+.vehicle-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
 }
 
-.welcome strong {
-  font-weight: 700;
+.vehicle-list li {
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  padding: 1rem;
+  text-align: center;
 }
 
-.welcome .car-info {
-  margin-top: 0.5rem;
-}
-
-.car-model {
-  font-weight: 700;
-  color: #007bb8; /* Darker cyan */
-  margin-bottom: 0.25rem;
-  cursor: default;
-  display: inline-block;
-}
-
-.car-details {
-  font-size: 0.9rem;
-  line-height: 1.3;
-  color: #00aaff;
-  margin: 0 0 0.5rem 0;
-}
-
-.cta-button {
-  background-color: #00aaff;
-  color: #000;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 3px;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover,
-.cta-button:focus {
-  background-color: #007bb8;
-  color: #fff;
-  outline: 2px solid #0066cc;
-  outline-offset: 2px;
-}
-
-.car-wrapper {
-  position: relative;
-  margin: 0.5rem 0 1rem 0;
-  max-width: 100%;
-  overflow: visible;
-}
-
-.car-wrapper img {
+.vehicle-list img {
   width: 100%;
+  max-width: 200px;
   height: auto;
-  max-width: 320px;
-  display: block;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.vehicle-list h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.vehicle-list p {
+  font-size: 1rem;
+  color: #333;
 }
 
 /* Vehicle Detail View */
@@ -254,11 +227,8 @@ footer .error-link:focus {
   header h1 {
     font-size: 1.75rem;
   }
-  .welcome {
-    max-width: 600px;
-  }
-  .car-wrapper {
-    margin-bottom: 1.5rem;
+  .vehicle-list {
+    grid-template-columns: repeat(2, 1fr);
   }
   footer {
     padding: 1rem;
@@ -268,7 +238,7 @@ footer .error-link:focus {
 /* Large Screens (from 900px and up) */
 @media screen and (min-width: 900px) {
   body {
-    background-color: #e0f5ff; /* Very light cyan background */
+    background-color: #e0f5ff;
   }
   main {
     max-width: 900px;
@@ -285,54 +255,8 @@ footer .error-link:focus {
   nav {
     border-radius: 6px;
   }
-  .welcome {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-direction: row-reverse;
-  }
-  .car-wrapper {
-    max-width: 450px;
-    margin: 0;
-    flex: 1 1 auto;
-  }
-  .car-info {
-    flex: 0 0 250px;
-    margin-right: 2rem;
-    order: 1;
-  }
-  .car-model {
-    font-size: 1.4rem;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  .car-details {
-    font-size: 1rem;
-    line-height: 1.4;
-    margin-bottom: 1rem;
-  }
-  .cta-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-  }
-  .reviews-upgrades-container {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
-  .reviews,
-  .upgrades {
-    flex: 1 1 50%;
-  }
-  .reviews ul {
-    padding-left: 1.5rem;
-  }
-  .upgrades-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+  .vehicle-list {
+    grid-template-columns: repeat(3, 1fr);
   }
   .vehicle-detail-container {
     flex-direction: row;
@@ -349,4 +273,26 @@ footer .error-link:focus {
     margin: 0 auto;
     padding: 1rem;
   }
+}
+
+.account-link, .logout-link {
+  float: right; /* Or display: inline-block; for mobile */
+  margin-left: 10px;
+}
+
+.secondary-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.secondary-nav li {
+  margin: 0;
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
 }

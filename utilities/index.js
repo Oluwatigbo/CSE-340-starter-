@@ -1,63 +1,80 @@
+// utilities/index.js
 const invModel = require('../models/inventory-model');
+const { body } = require('express-validator');
 
-function formatPriceUSD(price) {
-  return price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+/* ***********************
+ * Local server functions
+ *********************** */
+
+// Builds the navigation HTML for the classification links
+async function getNav() {
+  try {
+    // Fetch classifications from DB
+    const data = await invModel.getClassifications();
+    
+    // Build nav array (standard format: [{ title: 'Sedans', href: '/inv/type/1' }, ...])
+    let nav = data.map(classification => ({
+      title: classification.classification_name,
+      href: `/inv/type/${classification.classification_id}`
+    }));
+    
+    // Add fallback items if no DB data (prevents empty nav)
+    if (nav.length === 0) {
+      nav = [
+        { title: 'All Vehicles', href: '/inv' },
+        { title: 'Sedans', href: '/inv/type/1' }, // Assume IDs; adjust if needed
+        { title: 'SUVs', href: '/inv/type/2' }
+      ];
+    }
+    
+    return nav;
+  } catch (error) {
+    console.error('getNav error: Failed to load classifications', error.message);
+    // Fallback: Return empty array (safe for forEach)
+    return [];
+  }
 }
 
-function formatMileage(mileage) {
-  return mileage.toLocaleString('en-US');
-}
-
-function buildVehicleDetailHTML(vehicle) {
+// Builds vehicle detail HTML (from your original controller)
+async function buildVehicleDetailHtml(vehicle) {
   return `
-    <div class="vehicle-detail-container">
-      <div class="vehicle-image">
-        <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}" />
-      </div>
-      <div class="vehicle-info">
-        <h1>${vehicle.inv_make} ${vehicle.inv_model}</h1>
-        <p><strong>Year:</strong> ${vehicle.inv_year}</p>
-        <p><strong>Price:</strong> ${formatPriceUSD(vehicle.inv_price)}</p>
-        <p><strong>Mileage:</strong> ${formatMileage(vehicle.inv_miles)} miles</p>
-        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
-      </div>
+    <div class="vehicle-detail">
+      <img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model}" />
+      <h2>${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})</h2>
+      <p>${vehicle.inv_description}</p>
+      <p class="price">$${vehicle.inv_price.toLocaleString()}</p>
+      <ul>
+        <li>Color: ${vehicle.inv_color || 'N/A'}</li>
+        <li>Mileage: ${vehicle.inv_miles || 'N/A'} miles</li>
+        <li>Status: ${vehicle.inv_status || 'Available'}</li>
+      </ul>
     </div>
   `;
 }
 
-// Async error handler wrapper for Express routes
+// Error handler utility (wraps async functions) - FIXED: Removed 'async' to return a function, not Promise
 function handleErrors(fn) {
-  return function (req, res, next) {
+  return (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 }
 
-// Example getNav function returning navigation data
-async function getNav() {
-  // Replace this with your actual nav building logic or database call
-  return [
-    { name: 'Home', link: '/' },
-    { name: 'Inventory', link: '/inv' },
-    { name: 'About', link: '/about' },
-    { name: 'Contact', link: '/contact' },
-  ];
-}
-
-// Build classification select list HTML with sticky selected option
-async function buildClassificationList(selectedId = null) {
-  const data = await invModel.getClassifications();
-  let classificationList = '<select name="classification_id" id="classificationList" required>';
-  classificationList += '<option value="">Choose a Classification</option>';
-  data.rows.forEach(row => {
-    classificationList += `<option value="${row.classification_id}"${selectedId == row.classification_id ? ' selected' : ''}>${row.classification_name}</option>`;
-  });
-  classificationList += '</select>';
-  return classificationList;
+// Validation utilities (for forms)
+function getValidationRules() {
+  return {
+    classification: [body('classification_name').trim().isLength({ min: 2 }).escape()],
+    inventory: [
+      body('inv_make').trim().isLength({ min: 2 }).escape(),
+      body('inv_model').trim().isLength({ min: 2 }).escape(),
+      body('inv_year').isInt({ min: 1886, max: new Date().getFullYear() + 1 }),
+      // ... other rules
+    ]
+  };
 }
 
 module.exports = {
-  buildVehicleDetailHTML,
-  handleErrors,
   getNav,
-  buildClassificationList,
+  buildVehicleDetailHtml,
+  handleErrors,
+  getValidationRules,
 };
