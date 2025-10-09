@@ -296,3 +296,13 @@ footer .error-link:focus {
   font-weight: bold;
   border-bottom: 2px solid #007bff;
 }
+
+
+  /* Inline styles for demo; move to CSS file */
+  .success { color: green; background: #d4edda; padding: 10px; border-radius: 4px; margin: 10px 0; }
+  .errors { color: red; background: #f8d7da; padding: 10px; border-radius: 4px; margin: 10px 0; list-style: none; }
+  .errors li { margin: 5px 0; }
+  fieldset { border: 1px solid #ccc; padding: 20px; margin: 10px 0; }
+  label { display: block; margin: 10px 0 5px; }
+  input { width: 100%; max-width: 300px; padding: 8px; margin-bottom: 10px; }
+  button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }

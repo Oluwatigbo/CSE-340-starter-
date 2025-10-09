@@ -1,0 +1,54 @@
+<!-- views/partials/reviews.ejs -->
+<% if (review_count > 0) { %>
+  <section class="reviews-section">
+    <h3>Reviews (<%= review_count %>) - Average: <%= avg_rating %>/5</h3>
+    
+    <% reviews.forEach(function(review) { %>
+      <div class="review">
+        <p><strong><%= review.reviewer_name %> (<%= review.account_type %>)</strong> - <%= review.review_rating %>/5 Stars</p>
+        <p><%= review.review_comment %></p>
+        <small><%= new Date(review.review_date).toLocaleDateString() %></small>
+        <% if (loggedin && accountId && res.locals.accountType === 'Admin') { %>
+          <form action="/inv/detail/<%= vehicle.inv_id %>/review/<%= review.review_id %>/delete" method="POST" style="display: inline;">
+            <button type="submit" class="delete-btn" onclick="return confirm('Delete this review?')">Delete</button>
+          </form>
+        <% } %>
+      </div>
+    <% }) %>
+  </section>
+<% } else { %>
+  <p>No reviews yet. Be the first to review this vehicle!</p>
+<% } %>
+
+<% if (loggedin) { %>
+  <section class="submit-review">
+    <h4>Submit Your Review</h4>
+    <% if (errors && errors.length > 0) { %>
+      <ul class="errors">
+        <% errors.forEach(function(error) { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <% if (message) { %>
+      <p class="success"><%= message %></p>
+    <% } %>
+    <form action="/inv/detail/<%= vehicle.inv_id %>/review" method="POST">
+      <label>Rating (1-5):</label>
+      <select name="review_rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+      </select>
+      
+      <label>Comment:</label>
+      <textarea name="review_comment" rows="4" required placeholder="Share your thoughts..."></textarea>
+      
+      <button type="submit">Submit Review</button>
+    </form>
+  </section>
+<% } else { %>
+  <p><a href="/account/login">Log in</a> to submit a review.</p>
+<% } %>

@@ -26,19 +26,53 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // Required for JWT cookies
 
-// Session middleware for flash messages
+// FIXED: Session middleware (saveUninitialized: false for security; logging for debug)
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "oluwatigbo", // Use env var for security
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,  // FIXED: Attach session only when needed (prevents undefined)
+    rolling: true,  // FIXED: Refresh expiry on each request
+    cookie: { 
+      httpOnly: true,  // FIXED: Secure against JS access
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000  // 24h
+    }
   })
 );
 
-// Flash message middleware
+// Log to confirm session is running (remove after testing)
+app.use((req, res, next) => {
+  if (req.sessionID) {
+    console.log('Session active:', req.sessionID.substring(0, 8) + '...');  // Debug: Short ID
+  } else {
+    console.log('No session yet - will create on first use');
+  }
+  next();
+});
+
+// Flash message middleware (AFTER session)
 app.use(flash());
 
-// Task 1: Middleware to set res.locals for login status and user info
+// FIXED: Global locals for flash (AFTER flash; ensures req.session exists)
+app.use((req, res, next) => {
+  res.locals.message = req.flash('message') || null;
+  res.locals.errors = req.flash('errors') || [];
+  next();
+});
+
+// UPDATED: Global nav for all views (fetches from utilities with fallback)
+app.use(async (req, res, next) => {
+  try {
+    res.locals.nav = await utilities.getNav();
+  } catch (navErr) {
+    console.error('Global nav error:', navErr.message);
+    res.locals.nav = [];  // Fallback empty array (static nav in partial)
+  }
+  next();
+});
+
+// Task 1: Middleware to set res.locals for login status and user info (UPDATED: Clear invalid tokens)
 app.use((req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
@@ -46,11 +80,12 @@ app.use((req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       res.locals.loggedin = true;
       res.locals.accountType = decoded.account_type;
-      res.locals.firstName = decoded.account_firstname;
+      res.locals.firstName = decoded.account_firstname;  // For nav
       res.locals.accountId = decoded.account_id;
     } catch (err) {
+      console.error('Invalid JWT:', err.message);
       res.locals.loggedin = false;
-      res.clearCookie('jwt'); // Clear invalid token
+      res.clearCookie('jwt'); // FIXED: Clear invalid/expired token
     }
   } else {
     res.locals.loggedin = false;
@@ -107,25 +142,35 @@ app.use(async (req, res, next) => {
 });
 
 /* ***********************
- * Error Handler Middleware
+ * Error Handler Middleware (UPDATED: Check session before flash)
  *************************/
 app.use(async (err, req, res, next) => {
-  let nav;
+  let nav = [];
   try {
     nav = await utilities.getNav(); // Wrap in try-catch if DB issues
   } catch (navErr) {
-    console.error('Nav error:', navErr.message);
-    nav = []; // Fallback empty nav
+    console.error('Nav error in error handler:', navErr.message);
+    nav = []; // Fallback
   }
   console.error(`Error: ${err.message} for ${req.method} ${req.url}`);
+  
+  // FIXED: Safe flash access (check if session exists)
+  let message = null;
+  let errors = [];
+  if (req.session) {
+    message = req.flash('message') || null;
+    errors = req.flash('errors') || [];
+  } else {
+    console.warn('No session in error handler - flash unavailable');
+  }
+  
   res.status(err.status || 500).render("error", {
     title: "Error",
     message: err.message,
     error: err,
     nav,
-    // Pass flash for consistency (e.g., if error occurs after form submit)
-    message: req.flash('message'),
-    errors: req.flash('errors'),
+    message,  // From safe flash
+    errors,
   });
 });
 
@@ -136,12 +181,15 @@ app.use(async (err, req, res, next) => {
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
 
-// New: Startup check for required env vars (prevents silent failures)
+// FIXED: Enhanced startup checks
+console.log('Starting server...');
 if (!process.env.JWT_SECRET) {
   console.warn('Warning: JWT_SECRET not set in .env. Set it for secure JWT handling.');
 }
 if (!process.env.SESSION_SECRET) {
   console.warn('Warning: SESSION_SECRET not set in .env. Using fallback (insecure for production).');
+} else {
+  console.log('Session secret loaded from .env');
 }
 
 /* ***********************
@@ -149,4 +197,5 @@ if (!process.env.SESSION_SECRET) {
  *************************/
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`);
+  console.log('Session middleware active - Flash ready.');
 });

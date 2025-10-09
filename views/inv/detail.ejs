@@ -1,3 +1,12 @@
+<!-- In views/inv/vehicle-detail.ejs -->
 <main>
-  <%- vehicleDetailHTML %>
+  <%- include('../partials/header.ejs') %>
+  
+  <h1>Vehicle Details</h1>
+  <%= buildVehicleDetailHtml(vehicle) %>  <!-- Your existing detail HTML -->
+  
+  <!-- New: Include reviews -->
+  <%- include('../partials/reviews.ejs') %>
+  
+  <%- include('../partials/footer.ejs') %>
 </main>

@@ -52,7 +52,7 @@ async function buildVehicleDetailHtml(vehicle) {
   `;
 }
 
-// Error handler utility (wraps async functions) - FIXED: Removed 'async' to return a function, not Promise
+// Error handler utility (wraps async functions)
 function handleErrors(fn) {
   return (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
@@ -68,6 +68,17 @@ function getValidationRules() {
       body('inv_model').trim().isLength({ min: 2 }).escape(),
       body('inv_year').isInt({ min: 1886, max: new Date().getFullYear() + 1 }),
       // ... other rules
+    ],
+    // New: Review validation (for enhancement)
+    review: [
+      body('review_rating')
+        .isInt({ min: 1, max: 5 })
+        .withMessage('Rating must be between 1 and 5 stars.'),
+      body('review_comment')
+        .trim()
+        .isLength({ min: 10, max: 500 })
+        .withMessage('Comment must be between 10 and 500 characters.')
+        .escape()
     ]
   };
 }

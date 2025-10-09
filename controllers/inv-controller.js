@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model");
+const reviewsModel = require("../models/reviews-model");  // New: For reviews (create this file if missing)
 const utilities = require("../utilities/");
 
 const invController = {};
@@ -43,11 +44,34 @@ async function buildByInventoryId(req, res, next) {
   }
   const detailView = await utilities.buildVehicleDetailHtml(data);
   const nav = await utilities.getNav();
+  
+  // New: Fetch reviews and average rating for this vehicle
+  let reviews = [];
+  let avg_rating = 0;
+  let review_count = 0;
+  try {
+    reviews = await reviewsModel.getReviewsByVehicle(invId);
+    const ratingData = await reviewsModel.getAverageRating(invId);
+    avg_rating = ratingData.avg_rating.toFixed(1);
+    review_count = ratingData.review_count;
+  } catch (reviewError) {
+    console.error('Reviews fetch error:', reviewError);
+    // Graceful fallback: Empty reviews, no crash
+  }
+  
   res.render("./inv/detail", {  // Updated path: ./inv/
     title: `${data.inv_make} ${data.inv_model}`,
     nav,
     detailView,
-    vehicle: data
+    vehicle: data,
+    reviews,  // New: Pass to view/partial
+    avg_rating,  // New
+    review_count,  // New
+    message: req.flash('message'),  // For success (e.g., review submitted)
+    errors: req.flash('errors'),  // For errors (e.g., validation)
+    loggedin: res.locals.loggedin,  // From JWT middleware
+    accountId: res.locals.accountId,
+    accountType: res.locals.accountType  // For admin delete
   });
 }
 
@@ -72,6 +96,66 @@ async function buildInventoryList(req, res, next) {
   } catch (error) {
     console.error('Inventory list error:', error);
     next(error);
+  }
+}
+
+// New: Handle review submission (POST /inv/detail/:invId/review)
+async function submitReview(req, res, next) {
+  if (!res.locals.loggedin) {
+    req.flash('errors', ['You must be logged in to submit a review.']);
+    return res.redirect(`/inv/detail/${req.params.invId}`);
+  }
+
+  const { review_rating, review_comment } = req.body;
+  const invId = req.params.invId;
+  const account_id = res.locals.accountId;
+
+  try {
+    // Validation handled in route middleware; but double-check here if needed
+    const { validationResult } = require('express-validator');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash('errors', errors.array().map(e => e.msg));
+      return res.redirect(`/inv/detail/${invId}`);
+    }
+
+    const newReview = await reviewsModel.createReview(invId, account_id, review_rating, review_comment);
+    if (newReview) {
+      req.flash('message', 'Review submitted successfully!');
+    } else {
+      req.flash('errors', ['Failed to submit review. Please try again.']);
+    }
+    res.redirect(`/inv/detail/${invId}`);
+  } catch (error) {
+    console.error('submitReview error:', error);
+    req.flash('errors', [error.message]);
+    res.redirect(`/inv/detail/${invId}`);
+  }
+}
+
+// New: Delete review (for admins; POST /inv/detail/:invId/review/:review_id/delete)
+async function deleteReview(req, res, next) {
+  if (!res.locals.loggedin || res.locals.accountType !== 'Admin') {
+    req.flash('errors', ['Only admins can delete reviews.']);
+    return res.redirect(`/inv/detail/${req.params.invId}`);
+  }
+
+  const review_id = req.params.review_id;
+  const account_id = res.locals.accountId;
+  const invId = req.params.invId;
+
+  try {
+    const deleted = await reviewsModel.deleteReview(review_id, account_id);
+    if (deleted) {
+      req.flash('message', 'Review deleted successfully.');
+    } else {
+      req.flash('errors', ['Failed to delete review.']);
+    }
+    res.redirect(`/inv/detail/${invId}`);
+  } catch (error) {
+    console.error('deleteReview error:', error);
+    req.flash('errors', [error.message]);
+    res.redirect(`/inv/detail/${invId}`);
   }
 }
 
@@ -212,11 +296,13 @@ async function deleteInventory(req, res, next) {
   }
 }
 
-// Export all functions
+// Export all functions (ensures new ones are available to routes)
 invController.buildByClassificationId = buildByClassificationId;
 invController.buildByInventoryId = buildByInventoryId;
 invController.triggerError = triggerError;
 invController.buildInventoryList = buildInventoryList;
+invController.submitReview = submitReview;  // New - Fixed export
+invController.deleteReview = deleteReview;  // New - Fixed export
 invController.buildAddClassificationView = buildAddClassificationView;
 invController.addClassification = addClassification;
 invController.buildAddInventoryView = buildAddInventoryView;

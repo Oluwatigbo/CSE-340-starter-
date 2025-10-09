@@ -1,5 +1,5 @@
 <main>
-  <h1>Register New Account</h1>
+  <h1>Update Account Information</h1>
   
   <!-- Safe message display (handles null, string, or array) -->
   <% if (message) { %>
@@ -26,7 +26,9 @@
     <%- include('../partials/nav.ejs', { nav }) %>
   <% } %>
   
-  <form action="/account/register" method="POST">
+  <form action="/account/update" method="POST">
+    <input type="hidden" name="account_id" value="<%= account_id || '' %>">
+    
     <fieldset>
       <legend>Personal Information</legend>
       
@@ -51,10 +53,6 @@
         minlength="2" 
         maxlength="50"
       >
-    </fieldset>
-    
-    <fieldset>
-      <legend>Login Credentials</legend>
       
       <label for="account_email">Email:</label>
       <input 
@@ -65,33 +63,33 @@
         required 
         maxlength="100"
       >
+    </fieldset>
+    
+    <fieldset>
+      <legend>Change Password (Optional - Leave blank to keep current)</legend>
+      <p>Note: To change your password, enter a new one below. Otherwise, leave fields empty.</p>
       
-      <label for="account_password">Password:</label>
+      <label for="account_password">New Password:</label>
       <input 
         type="password" 
         id="account_password" 
         name="account_password" 
-        required 
         minlength="8" 
         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
         title="Password must contain at least 8 characters, including uppercase, lowercase, and number."
       >
       
-      <label for="account_password_confirm">Confirm Password:</label>
+      <label for="account_password_confirm">Confirm New Password:</label>
       <input 
         type="password" 
         id="account_password_confirm" 
         name="account_password_confirm" 
-        required 
         minlength="8"
       >
-      
-      <!-- Hidden account_type (default 'Client' in controller) -->
-      <input type="hidden" name="account_type" value="Client">
     </fieldset>
     
-    <button type="submit">Register Account</button>
+    <button type="submit">Update Account</button>
+    <a href="/account/manage"><button type="button">Cancel</button></a>
   </form>
-  
-  <p><a href="/account/login">Already have an account? Login here.</a></p>
 </main>
+

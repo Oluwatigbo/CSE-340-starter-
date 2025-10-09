@@ -1,15 +1,41 @@
 <main>
   <h1>Login</h1>
-  <% if (message) { %><p><%= message %></p><% } %>
-  <% if (errors && errors.length > 0) { %>
-    <ul><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+  
+  <!-- Safe message display (handles null, string, or array) -->
+  <% if (message) { %>
+    <% if (Array.isArray(message)) { %>
+      <% message.forEach(msg => { %>
+        <p class="success"><%= msg %></p>
+      <% }) %>
+    <% } else { %>
+      <p class="success"><%= message %></p>
+    <% } %>
   <% } %>
+  
+  <!-- Safe errors display (assumes array or null) -->
+  <% if (errors && errors.length > 0) { %>
+    <ul class="errors">
+      <% errors.forEach(e => { %>
+        <li><%= e %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <!-- FIXED: Correct relative path from views/account/ to views/partials/ -->
+  <% if (typeof nav !== 'undefined') { %>
+    <%- include('../partials/nav.ejs', { nav }) %>
+  <% } %>
+  
   <form action="/account/login" method="POST">
     <label for="account_email">Email:</label>
-    <input type="email" id="account_email" name="account_email" required value="<%= typeof account_email !== 'undefined' ? account_email : '' %>" />
+    <input type="email" id="account_email" name="account_email" required>
+    
     <label for="account_password">Password:</label>
-    <input type="password" id="account_password" name="account_password" required />
+    <input type="password" id="account_password" name="account_password" required>
+    
     <button type="submit">Login</button>
   </form>
-  <p><a href="/account/register">Register</a></p> <!-- If registration exists -->
+  
+  <p><a href="/account/register">Don't have an account? Register here.</a></p>
 </main>
+
